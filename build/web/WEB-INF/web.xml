@@ -56,6 +56,10 @@
         <servlet-name>Login10</servlet-name>
         <servlet-class>Login10</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AuthServlet</servlet-name>
+        <servlet-class>AuthServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HelloWorldQ1</servlet-name>
         <url-pattern>/HelloWorldQ1</url-pattern>
@@ -103,6 +107,10 @@
     <servlet-mapping>
         <servlet-name>Login10</servlet-name>
         <url-pattern>/Login10</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AuthServlet</servlet-name>
+        <url-pattern>/AuthServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
