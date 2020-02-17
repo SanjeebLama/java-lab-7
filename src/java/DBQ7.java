@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
@@ -15,54 +9,61 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author USER
+ * @author dipesh
  */
 public class DBQ7 extends HttpServlet {
 
+  Connection con=null;
     Statement stmt = null;
-    public void init(ServeltConfig config) {
-        try {
+    ResultSet rs = null;
+    
+    public void init(ServletConfig config){
+        try{
             Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql:localhost://3306/servlet";
-            Connection con = DriverManager.getConnection(url, "root", "");
-             stmt = con.createStatement();
-        } catch (Exception e) {
+            String url = "jdbc:mysql://localhost/test_db";
+            con = DriverManager.getConnection(url, "root", "");
+            stmt = con.createStatement();
+        }catch(Exception e){
             e.printStackTrace();
         }
+        
     }
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
+//        
         response.setContentType("text/html");
         PrintWriter pw = response.getWriter();
-
-//        String name,address,designation,department;
-//        pw.println("Inside doGet()");
-//        name = request.getParameter("name");
-//        address = request.getParameter("address");
-//        designation = request.getParameter("designation");
-//        department = request.getParameter("department");
+       String n, a, d, des;
+        n = request.getParameter("name");
+        a = request.getParameter("address");
+       d = request.getParameter("department");
+        des = request.getParameter("designation");
+        pw.println("Outside try catch");
         try {
-
-            String n, a, d, dept;
+            String sqlInsert = "INSERT INTO employee VALUES ('"+n+"','"+a+"','"+d+"','"+des+"')";
+            int result = stmt.executeUpdate(sqlInsert);
+            if(result != -1){
+                System.out.println("Inserted Succesfully");
+            }else{
+                System.out.println("Error in insertion");
+            }
             String sql = "SELECT * FROM employee";
-
-           ResultSet rs = stmt.executeQuery(sql);
-
-            while (rs.next()) {
-                n = rs.getString(0);
-                a = rs.getString(1);
-                d = rs.getString(2);
-                dept = rs.getString(3);
-                pw.println("Employe Information");
-                pw.println("Name : " + n + "/nAddress : " + a + "/nDesignaton : " + d + "/nDepartment : " + dept);
+            rs = stmt.executeQuery(sql);
+            String name, address, dept, designation;
+            while(rs.next()){
+                name = rs.getString("name");
+                address = rs.getString("address");
+                dept = rs.getString("department");
+                designation = rs.getString("designation");
+                pw.println("Name : "+name);
+                pw.println("Address : "+address);
+                pw.println("Department : "+dept);
+                pw.println("Designation : "+designation);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
-
 }
